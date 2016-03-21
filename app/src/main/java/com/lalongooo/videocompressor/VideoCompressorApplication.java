@@ -1,4 +1,5 @@
-package com.lalongooo.videocompressor;/*
+package com.lalongooo.videocompressor;
+/*
 * By Jorge E. Hernandez (@lalongooo) 2015
 * */
 

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +44,16 @@ public class MainActivity extends Activity {
                 startActivityForResult(intent, RESULT_CODE_COMPRESS_VIDEO);
             }
         });
+        findViewById(R.id.btnRecordVideo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30);
+                if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takeVideoIntent, RESULT_CODE_COMPRESS_VIDEO);
+                }
+            }
+        });
 
 
     }
@@ -50,9 +61,7 @@ public class MainActivity extends Activity {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void onActivityResult(int reqCode, int resCode, Intent data) {
         if (resCode == Activity.RESULT_OK && data != null) {
-
             Uri uri = data.getData();
-
             if (reqCode == RESULT_CODE_COMPRESS_VIDEO) {
                 if (uri != null) {
                     Cursor cursor = getContentResolver().query(uri, null, null, null, null, null);
